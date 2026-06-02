@@ -36,3 +36,7 @@ git remote
 
 # to configure a repository so that we can push changes from local to a remote repo
 git remote add origin https://github.com/Rachsana/Demo.git
+
+# to  Upload your commits to a git repo, like GitHub
+git push <remote_name> <branch_name>
+git push origin master
