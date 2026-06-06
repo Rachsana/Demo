@@ -1,48 +1,17 @@
 const express =require("express")
 const jwt=require("jsonwebtoken")
 const { UserModel,AdminModel,CourseModel,PurchaseModel}=require("./db");
+const {userRouter} =require('./routes/user');
+const {courseRouter} = require('./routes/course');
 
+//routing in express , express router and how it stucture application a little better
 const app=express()
 
-function auth(){
-    
-}
 
-app.use(auth)
+app.use('/user',userRouter);
 
-app.post("/signup",function(res,req){
-    
-})
-app.post("/login",function(res,req){
-    
-})
-app.post("/purchase",function(res,req){
-    //expect to pay money
-})
-app.get("/mypurchase",function(res,req){
-    
-})
-app.get("/allcourses",function(res,req){
-    
-})
+app.use('/course',courseRouter);
 
-function adminauth(){
 
-}
 
-app.use(adminauth)
-app.post("/signup/admin",function(res,req){
-    
-})
-app.post("/login/admin",function(res,req){
-    
-})
-app.delete("/course",function(res,req){
-    
-})
-app.post("/course",function(res,req){
-    
-})
-app.post("/course/content",function(res,req){
-    
-})
+app.listen(3000);
