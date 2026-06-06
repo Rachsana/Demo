@@ -1,9 +1,9 @@
 const express =require("express")
 const jwt=require("jsonwebtoken")
-const { UserModel,AdminModel,CourseModel,PurchaseModel}=require("./db");
 const {userRouter} =require('./routes/user');
 const {courseRouter} = require('./routes/course');
 const {adminRouter}= require('./routes/admin');
+const {UserModel, AdminModel, CourseModel, PurchaseModel} = require('./db');
 
 //routing in express , express router and how it stucture application a little better
 const app=express()
