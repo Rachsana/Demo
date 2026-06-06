@@ -17,9 +17,12 @@ app.post("/login",function(res,req){
     
 })
 app.post("/purchase",function(res,req){
+    //expect to pay money
+})
+app.get("/mypurchase",function(res,req){
     
 })
-app.get("/course",function(res,req){
+app.get("/allcourses",function(res,req){
     
 })
 
