@@ -1,15 +1,62 @@
 const {Router} =require("express");
 const adminRouter=Router();
+const {AdminModel} = require('../db');
+const bcrypt= require("bcrypt");
+const jwt=require("jsonwebtoken")
+const JWT_adminSECRET="thisisadminsecretto";
 
+adminRouter.post("/signup",async function(req,res){
+    const {email , password, firstname , lastname}=req.body;
 
-adminRouter.post("/signup",function(res,req){
-    
+    try{
+    const hashedpassword=await bcrypt.hash(password,5);
+    await AdminModel.create({
+        email:email,
+        password:hashedpassword,
+        firstname: firstname,
+        lastname: lastname
+    })
+    res.json({
+        message:"user signed up"
+    });}
+    catch(e){
+        console.error(e);
+        res.status(500).json({
+            message:"invalid cant signup"
+        })
+    }
 })
-adminRouter.post("/login",function(res,req){
-    
+adminRouter.post("/login",async function(req,res){
+     const {email,password}=req.body;
+    const admin=await AdminModel.findOne({
+        email:email
+    })
+    if(admin){
+        const passwordMatch=await bcrypt.compare(password,admin.password);
+        if(passwordMatch){
+            const token=jwt.sign({
+                id:admin._id
+            },JWT_adminSECRET);
+
+            //can do cookie logic
+            res.json({
+                token:token
+            })
+        }
+        else{
+            res.status(403).json({
+            message:"incorrect password"
+        })
+        }
+    }
+    else{
+        res.status(403).json({
+            message:"incorrect credentials"
+        })
+    }
 })
 
-adminRouter.use(adminMiddleware)
+// adminRouter.use(adminMiddleware)
 
 adminRouter.delete("/course",function(res,req){
     
