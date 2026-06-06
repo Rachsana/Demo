@@ -3,9 +3,11 @@ const adminRouter=Router();
 const {AdminModel, CourseModel} = require('../db');
 const bcrypt= require("bcrypt");
 const jwt=require("jsonwebtoken")
-const {JWT_adminSECRET}=require("../config");
-const { adminMiddleware } = require("../middleware/admin");
+const { JWT_adminSECRET } = require("../config");
 const course = require("./course");
+const {adminMiddleware}=require("../middleware/admin")
+
+console.log("JWT_adminSECRET =", JWT_adminSECRET);
 
 adminRouter.post("/signup",async function(req,res){
     const {email , password, firstname , lastname}=req.body;
@@ -66,7 +68,7 @@ adminRouter.post("/course",adminMiddleware,async function(req,res){
     const {title,description,imageUrl,price}=req.body;
    const course= await CourseModel.create({
         title,description,imageUrl,price,
-        createrId:adminId
+        creatorId:adminId
     })
     res.json({
         message:"course created",
@@ -75,16 +77,21 @@ adminRouter.post("/course",adminMiddleware,async function(req,res){
 })
 adminRouter.put("/course",adminMiddleware,async function(req,res){
     const adminId=req.adminId;
+    
+    console.log("adminId =", adminId);
+    console.log("body =", req.body);
     const {title,description,imageUrl,price,courseId}=req.body;
    const course= await CourseModel.updateOne({
         _id:courseId,
-        createrId:adminId
+        creatorId:adminId
         // so flying beast cannot update dhurv rathee's course by using dhruv rathee course id
         // it will search for courseid and adminid
    },{
         title:title,
         description,imageUrl,price,
     })
+    
+    console.log(course);
     res.json({
         message:"course updated",
         courseId: course._id
@@ -93,7 +100,7 @@ adminRouter.put("/course",adminMiddleware,async function(req,res){
 adminRouter.get("/courses",adminMiddleware,async (req,res)=>{
         const adminId=req.adminId;
         const courses=await CourseModel.find({
-            _id:adminId
+            creatorId:adminId
         });
         res.json({
             message:"Courses of this admin",

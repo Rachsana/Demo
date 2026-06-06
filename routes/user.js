@@ -4,11 +4,11 @@
 // or destucture router directly 
 const express = require("express");
 const { Router } = express;
-const {UserModel}= require('../db')
+const {UserModel, PurchaseModel, CourseModel}= require('../db')
 const bcrypt=require("bcrypt");
 const jwt=require('jsonwebtoken')
 const {JWT_userSECRET}=require("../config")
-
+const {userMiddleware} =require("../middleware/user")
 const userRouter=Router();
 
 userRouter.post("/signup",async function(req,res){
@@ -63,8 +63,16 @@ userRouter.post("/login",async function(req,res){
     }
 })
 
-userRouter.get("/purchases",function(res,req){
-    
+userRouter.post("/purchase",userMiddleware,async function(res,req){
+    const userId=req.userId;
+
+   const purchases= await PurchaseModel.find({
+        userId,
+    })
+    res.json({
+        message:"purchases",
+        purchases
+    })
 })
 
 module.exports={

@@ -25,16 +25,16 @@ const Admin=new Schema({
 })
 
 const Course=new Schema({
-    _id:ObjectId,
+    // _id:ObjectId,
     title: String,
     description: String,
     price : Number,
     imageUrl: String,
-    courseId: ObjectId
+    creatorId: ObjectId
 })
 
 const Purchases=new Schema({
-    _id:ObjectId,
+    // _id:ObjectId,
     userId: ObjectId,
     courseId: ObjectId
 })
