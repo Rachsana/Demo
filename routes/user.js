@@ -63,15 +63,18 @@ userRouter.post("/login",async function(req,res){
     }
 })
 
-userRouter.post("/purchase",userMiddleware,async function(res,req){
+userRouter.get("/purchase",userMiddleware,async function(req,res){
     const userId=req.userId;
 
    const purchases= await PurchaseModel.find({
         userId,
     })
+    const courseData=await CourseModel.find({
+        _id: {$in: purchases.map(x=> x.courseId)}
+    })
     res.json({
         message:"purchases",
-        purchases
+        courseData
     })
 })
 
