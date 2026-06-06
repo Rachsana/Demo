@@ -5,6 +5,7 @@ const {courseRouter} = require('./routes/course');
 const {adminRouter}= require('./routes/admin');
 const mongoose=require("mongoose");
 
+require('dotenv').config();
 //routing in express , express router and how it stucture application a little better
 const app=express()
 app.use(express.json());
