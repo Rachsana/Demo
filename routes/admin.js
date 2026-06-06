@@ -3,7 +3,8 @@ const adminRouter=Router();
 const {AdminModel, CourseModel} = require('../db');
 const bcrypt= require("bcrypt");
 const jwt=require("jsonwebtoken")
-const {JWT_adminSECRET}=require("../config")
+const {JWT_adminSECRET}=require("../config");
+const { adminMiddleware } = require("../middleware/admin");
 
 adminRouter.post("/signup",async function(req,res){
     const {email , password, firstname , lastname}=req.body;
@@ -56,12 +57,10 @@ adminRouter.post("/login",async function(req,res){
     }
 })
 
-// adminRouter.use(adminMiddleware)
-
 adminRouter.delete("/course",function(res,req){
     
 })
-adminRouter.post("/course",function(res,req){
+adminRouter.post("/course",adminMiddleware,function(res,req){
     const adminId=req.adminId;
     const {title,description,imageUrl,price}=req.body;
    const course= await CourseModel.create({

@@ -42,6 +42,7 @@ userRouter.post("/login",async function(req,res){
         if(passwordMatch){
             const token=jwt.sign({
                 id:user._id
+                // email might change in future but id is immutable
             },JWT_userSECRET);
 
             //can do cookie logic
