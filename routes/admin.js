@@ -1,9 +1,9 @@
 const {Router} =require("express");
 const adminRouter=Router();
-const {AdminModel} = require('../db');
+const {AdminModel, CourseModel} = require('../db');
 const bcrypt= require("bcrypt");
 const jwt=require("jsonwebtoken")
-const JWT_adminSECRET="thisisadminsecretto";
+const {JWT_adminSECRET}=require("../config")
 
 adminRouter.post("/signup",async function(req,res){
     const {email , password, firstname , lastname}=req.body;
@@ -62,7 +62,16 @@ adminRouter.delete("/course",function(res,req){
     
 })
 adminRouter.post("/course",function(res,req){
-    
+    const adminId=req.adminId;
+    const {title,description,imageUrl,price}=req.body;
+   const course= await CourseModel.create({
+        title,description,imageUrl,price,
+        createrId:adminId
+    })
+    res.json({
+        message:"course created",
+        courseId: course._id
+    })
 })
 adminRouter.post("/course/content",function(res,req){
     

@@ -7,9 +7,9 @@ const { Router } = express;
 const {UserModel}= require('../db')
 const bcrypt=require("bcrypt");
 const jwt=require('jsonwebtoken')
+const {JWT_userSECRET}=require("../config")
 
 const userRouter=Router();
-const JWT_userSECRET="thisismeuser2"
 
 userRouter.post("/signup",async function(req,res){
     const {email , password, firstname , lastname}=req.body;
@@ -67,5 +67,5 @@ userRouter.get("/purchases",function(res,req){
 })
 
 module.exports={
-    userRouter: userRouter
+    userRouter: userRouter,
 }
